@@ -6,15 +6,11 @@
 5. go mod tidy
 
 ## Steps to install task
-1. open a terminal
-2. git clone https://github.com/HiteshRepo/ports_processor.git
-3. cd ports_processor
-4. go mod download
-5. go mod tidy
-
+1. Please follow: https://taskfile.dev/installation/
 
 ## Steps to run tests
-1. Please follow: https://taskfile.dev/installation/
+1. All tests: task test
+2. Only Integration test: task:integration
 
 ## Steps to run the app and verify results
 1. Command to run app:`task run:local`
