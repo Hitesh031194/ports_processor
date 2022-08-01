@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	model "github.com/hiteshpattanayak-tw/ports_processor/internal/app/model"
+	model "github.com/hiteshpattanayak-tw/ports_processor/internal/app/db/migrations/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

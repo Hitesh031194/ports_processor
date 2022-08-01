@@ -61,7 +61,7 @@ func (a *App) handlePortData(data interface{}) {
 
 	dbPort := convertToDbModel(port)
 
-	err = a.PortRepo.UpsertPort(a.Ctx, a.AppConfig.GetDatabaseConfig().PortsTableName, dbPort)
+	err = a.PortRepo.UpsertPort(a.Ctx, dbPort)
 	if err != nil {
 		a.Logger.With(a.Ctx).Error(fmt.Sprintf("error while upserting port details: %v", err.Error()))
 		return
