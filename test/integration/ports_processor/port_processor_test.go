@@ -92,7 +92,7 @@ func (s *portsProcessorSuite) initPortsProcessor() {
 	migrator, err := migrations.ProvideMigrator(dbCnf, db, l)
 	s.Require().NoError(err)
 
-	portRepository := repository.ProvidePortRepository(db)
+	portRepository := repository.ProvidePortRepository(db, appConfig)
 
 	stream := json_processor.ProvideJSONStream()
 

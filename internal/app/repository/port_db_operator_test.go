@@ -2,8 +2,10 @@ package repository_test
 
 import (
 	"fmt"
+	"github.com/hiteshpattanayak-tw/ports_processor/internal/app/config"
 	dbModel "github.com/hiteshpattanayak-tw/ports_processor/internal/app/db/migrations/model"
 	"github.com/hiteshpattanayak-tw/ports_processor/internal/app/repository"
+	"github.com/hiteshpattanayak-tw/ports_processor/internal/pkg/db"
 	"github.com/hiteshpattanayak-tw/ports_processor/test/suites"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/require"
@@ -54,7 +56,9 @@ func (suite *portsRepositorySuite) SetupTest() {
 	suite.db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	suite.Require().NoError(err)
 
-	suite.portRepo = repository.ProvidePortRepository(suite.db)
+	appCnf := config.AppConfig{DatabaseConfig: db.DatabaseConfig{PortsTableName: "ports"}}
+
+	suite.portRepo = repository.ProvidePortRepository(suite.db, appCnf)
 }
 
 func (suite *portsRepositorySuite) TearDownTest() {
@@ -74,7 +78,7 @@ func (suite *portsRepositorySuite) TestUpsertPortShouldInsertPort() {
 		Unlocs:      "TestUnlocs1,TestUnlocs2",
 		Code:        "0000111",
 	}
-	err := suite.portRepo.UpsertPort(suite.Ctx, "ports", port)
+	err := suite.portRepo.UpsertPort(suite.Ctx, port)
 	suite.Require().NoError(err)
 
 	var dbPort dbModel.Port
@@ -96,12 +100,12 @@ func (suite *portsRepositorySuite) TestUpsertPortShouldUpdatePort() {
 		Unlocs:      "TestUnlocs1,TestUnlocs2",
 		Code:        "0000111",
 	}
-	err := suite.portRepo.UpsertPort(suite.Ctx, "ports", port)
+	err := suite.portRepo.UpsertPort(suite.Ctx, port)
 	suite.Require().NoError(err)
 
 	port.City = "TestCity2"
 
-	err = suite.portRepo.UpsertPort(suite.Ctx, "ports", port)
+	err = suite.portRepo.UpsertPort(suite.Ctx, port)
 	suite.Require().NoError(err)
 
 	var dbPort dbModel.Port
